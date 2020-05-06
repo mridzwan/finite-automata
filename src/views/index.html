@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+
+<body>
+    <div id="app">
+        
+        <section class="hero has-background-grey is-bold">
+            <div class="hero-body">
+                <div class="container has-text-centered">
+    
+                    <figure class="image is-64x64 is-inline-block">
+                        <img class="is-rounded" src="<%= require('../img/logo.png') %>">
+                    </figure>
+                    <h1 class="title has-text-white-ter">
+                        <%= htmlWebpackPlugin.options.title %>
+                    </h1>
+                </div>
+            </div>
+        </section>
+    
+        <div class="tabs is-centered is-boxed has-background-grey-lighter">
+            <ul>
+                <router-link to="/" v-slot="{ href, route, navigate, isExactActive }">
+                    <li :class="[isExactActive && 'is-active']">
+                        <a :href="href" @click="navigate">
+                            <span class="icon is-small has-text-grey"><i class="fas fa-home" aria-hidden="true"></i></span>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                </router-link>
+                <router-link to="/fa" v-slot="{ href, route, navigate, isExactActive }">
+                    <li :class="[isExactActive && 'is-active']">
+                        <a :href="href" @click="navigate">
+                            <span class="icon is-small has-text-grey"><i class="fas fa-cogs" aria-hidden="true"></i></span>
+                            <span>FA</span>
+                        </a>
+                    </li>
+                </router-link>
+                <router-link to="/credits" v-slot="{ href, route, navigate, isExactActive }">
+                    <li :class="[isExactActive && 'is-active']">
+                        <a :href="href" @click="navigate">
+                            <span class="icon is-small has-text-grey"><i class="fas fa-info-circle" aria-hidden="true"></i></span>
+                            <span>Credits</span>
+                        </a>
+                    </li>
+                </router-link>
+            </ul>
+        </div>
+    
+        <section class="section">
+            <div class="container">
+                <router-view></router-view>
+            </div>
+        </section>
+
+    </div>
+</body>
+
+</html>
