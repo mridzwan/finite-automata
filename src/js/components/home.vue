@@ -6,6 +6,7 @@
             </h1>
 
             <h2 class="subtitle">
+                Trimester 3 (1930) - 2019/2020<br><br>
                 Assignment - Group 6
             </h2>
         </div>
@@ -14,7 +15,7 @@
             <div class="columns is-centered">
                 <div class="column is-half has-text-centered">
                     <p class="subtitle has-text-weight-semibold">
-                        LEADER<br><br>
+                        LEADER<br>
                     </p>
 
                     <figure class="image is-128x128 is-inline-block">
@@ -83,7 +84,12 @@
             </div>
         </section>
 
-        
+        <footer class="footer">
+            <div class="content has-text-centered">
+                <br>
+                <p><a href="https://github.com/mridzwan/finite-automata" target="a_blank" class="button"><i class="fab fa-github"></i>&nbsp;GitHub</a></p>
+            </div>
+        </footer>
 
     </div>
 </template>

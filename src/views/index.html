@@ -21,6 +21,9 @@
                     <h1 class="title has-text-white-ter">
                         <%= htmlWebpackPlugin.options.title %>
                     </h1>
+                    <h2 class="subtitle has-text-white-ter">
+                        NFA to DFA converter
+                    </h2>
                 </div>
             </div>
         </section>
@@ -43,11 +46,11 @@
                         </a>
                     </li>
                 </router-link>
-                <router-link to="/credits" v-slot="{ href, route, navigate, isExactActive }">
+                <router-link to="/docs" v-slot="{ href, route, navigate, isExactActive }">
                     <li :class="[isExactActive && 'is-active']">
                         <a :href="href" @click="navigate">
-                            <span class="icon is-small has-text-grey"><i class="fas fa-info-circle" aria-hidden="true"></i></span>
-                            <span>Credits</span>
+                            <span class="icon is-small has-text-grey"><i class="fas fa-book" aria-hidden="true"></i></span>
+                            <span>Docs</span>
                         </a>
                     </li>
                 </router-link>
@@ -59,7 +62,7 @@
                 <router-view></router-view>
             </div>
         </section>
-
+        
     </div>
 </body>
 

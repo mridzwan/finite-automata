@@ -18,7 +18,7 @@ $beige-lighter: #EFF0EB;
 //$link: $pink;
 
 // Update some of Bulma's component variables
-$body-background-color: $beige-lighter;
+//$body-background-color: $white-ter;
 $body-overflow-y: auto;
 $control-border-width: 2px;
 //$input-border-color: transparent;
@@ -30,8 +30,11 @@ $control-border-width: 2px;
 @import "~bulma/sass/elements/button.sass";
 @import "~bulma/sass/elements/container.sass";
 @import "~bulma/sass/elements/image.sass";
+@import "~bulma/sass/elements/table.sass";
 @import "~bulma/sass/elements/title.sass";
+@import "~bulma/sass/elements/other.sass";
 @import "~bulma/sass/form/_all.sass";
+@import "~bulma/sass/components/dropdown.sass";
 @import "~bulma/sass/components/tabs.sass";
 @import "~bulma/sass/components/level.sass";
 @import "~bulma/sass/components/navbar.sass";
