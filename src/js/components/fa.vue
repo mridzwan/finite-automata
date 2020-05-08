@@ -10,11 +10,11 @@
                     <td class="has-text-centered has-background-light" v-for="(alphabet, index) in alphabets" :key="alphabet.id">
                         <input type="text" class="input has-text-centered" style="width:3em;" maxlength="2" v-model="alphabet.value" :disabled="alphabet.edit == 0">
                         <span class="is-inline-flex" v-if="alphabet.edit == 1">
-                            <button class="delete is-small" v-on:click="delItem(alphabets, index)"></button>
+                            <button class="delete is-small" v-on:click="deleteAlphabet(index)"></button>
                         </span>
                     </td>
                     <td style="border:0;">
-                        <button class="button" v-on:click="addItem(alphabets)" :disabled="alphabets.length > limit_alphabet">
+                        <button class="button" v-on:click="addAlphabet()" :disabled="alphabets.length > limitAlphabet">
                             <span class="icon has-text-primary">
                                 <i class="fas fa-plus"></i>
                             </span>
@@ -27,12 +27,12 @@
                     <td class="has-text-centered has-background-light" v-for="(state, index) in states" :key="state.id">
                         <input type="text" class="input has-text-centered" style="width:3em;" maxlength="2" v-model="state.value" :disabled="state.edit == 0">
                         <span class="is-inline-flex" v-if="state.edit == 1">
-                            <button class="delete is-small" v-on:click="delItem(states, index)"></button>
+                            <button class="delete is-small" v-on:click="deleteState(index)"></button>
                         </span>
                     </td>
 
                     <td style="border:0;">
-                        <button class="button" v-on:click="addItem(states)" :disabled="states.length > limit_state">
+                        <button class="button" v-on:click="addState()" :disabled="states.length > limitState">
                             <span class="icon has-text-primary">
                                 <i class="fas fa-plus"></i>
                             </span>
@@ -46,9 +46,9 @@
                         <div class="dropdown is-hoverable">
                             <div class="dropdown-trigger">
                                 <button class="button" aria-haspopup="true" aria-controls="dropdown-menu-init-state">
-                                    <span v-if="initial_state == -1">∅</span>
+                                    <span v-if="initState == -1">∅</span>
                                     
-                                    <span v-else>{{ initialState[0].value }}</span>
+                                    <span v-else>{{ getState(initState).value }}</span>
                                     
                                     <span class="icon is-small">
                                         <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -60,7 +60,7 @@
                                     <div class="dropdown-item">
                                         <div class="control">
                                             <label class="radio" v-for="(state, index) in states" :key="state.id">
-                                                <input type="radio" name="initial_state" :value="state.id" v-model="initial_state">
+                                                <input type="radio" name="initial_state" :value="state.id" v-model="initState">
                                                 {{ state.value }}
                                             </label>
                                         </div>
@@ -77,12 +77,12 @@
                         <div class="dropdown is-hoverable">
                             <div class="dropdown-trigger">
                                 <button class="button" aria-haspopup="true" aria-controls="dropdown-menu-final-state">
-                                    <span v-if="!finalState.length">∅</span>
                                     
-                                    <span v-else v-for="(state, index) in finalState" :key="state.id">
-                                        <span v-if="index > 0">,</span>{{ state.value }}
+                                    <span v-for="(state, index) in getFinalStates" :key="state">
+                                        <span v-if="index != 0">, </span>{{ getState(state.id).value }}
                                     </span>
-                                    
+                                    <span v-show="!getFinalStates.length">∅</span>
+
                                     <span class="icon is-small">
                                         <i class="fas fa-angle-down" aria-hidden="true"></i>
                                     </span>
@@ -105,6 +105,7 @@
                 </tr>
             </tbody>
         </table>
+        <button class="button is-rounded" v-on:click="clearProperties"><span class="icon is-small has-text-grey"><i class="fas fa-redo-alt"></i></span>&nbsp;&nbsp;&nbsp;Reset</button>
         <br><br>
     </div>
 
@@ -120,25 +121,26 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(state) in states" :key="state.id">
-                    <th class="has-text-centered has-text-white-bis has-background-grey"><span v-if="initial_state == state.id">></span><span v-if="state.final == true">*</span>{{ state.value }}</th>
-                    <td class="has-text-centered" v-for="alphabet in alphabets" :key="alphabet.id">
+                <tr v-for="state in states" :key="state.id">
+                    <th class="has-text-centered has-text-white-bis has-background-grey"><span v-if="initState == state.id">></span><span v-if="state.final == true">*</span>{{ state.value }}</th>
+                    <td class="has-text-centered has-background-light" v-for="alphabet in alphabets" :key="alphabet.id">
 
                         <div class="dropdown is-hoverable">
                             <div class="dropdown-trigger">
-                                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu-final-state">
+                                <button class="button" aria-haspopup="true" :aria-controls="'dropdown-menu-transition-' + state.id + '-' + alphabet.id">
                                     
-                                    <span v-if="!getTransition(state.id, alphabet.id).length">∅</span>
-                                    <span v-else v-for="(transition, index) in getTransition(state.id, alphabet.id)" :key="transition.id">
-                                        <span v-if="index > 0">,</span>{{ getStateById(transition.dest).value }}
+                                    
+                                    <span v-for="(transition, index) in getTransition(state.id, alphabet.id)" :key="transition.id">
+                                        <span v-if="index != 0">, </span>{{ getState(transition.dest).value }}
                                     </span>
-                                    
+                                    <span v-show="!getTransition(state.id, alphabet.id).length">∅</span>
+
                                     <span class="icon is-small">
                                         <i class="fas fa-angle-down" aria-hidden="true"></i>
                                     </span>
                                 </button>
                             </div>
-                            <div class="dropdown-menu" id="dropdown-menu-final-state" role="menu" >
+                            <div class="dropdown-menu" :id="'dropdown-menu-transition-' + state.id + '-' + alphabet.id" role="menu" >
                                 <div class="dropdown-content">
                                     <div class="dropdown-item">
                                         <label class="checkbox" v-for="(substate, index) in states" :key="substate.id">
@@ -156,6 +158,7 @@
                 </tr>
             </tbody>
         </table>
+        <button class="button is-rounded" v-on:click="clearTransition"><span class="icon is-small has-text-grey"><i class="fas fa-redo-alt"></i></span>&nbsp;&nbsp;&nbsp;Reset</button>
         <br><br>
     </div>
   </div>
@@ -165,105 +168,109 @@
 export default {
     data() {
         return {
-            limit_alphabet: 10,
-            limit_state: 10,
-
-            alphabets: [
-                { id: 0, value: "ε", edit: 0 }
-            ],
+            alphabets: [{ id: 0, value: 'ε', edit: 0 }],
             states: [],
             transitions: [],
-            // { id: 0, source: 1, dest: 2, alphabet: 0 }
-            initial_state: -1,
+
+            limitAlphabet: 10,
+            limitState: 10,
+            initState: -1
+
         };
     },
     methods: {
-        greet: function (event) {
-            // `this` inside methods points to the Vue instance
-            alert('Hello world')
+        addAlphabet: function() {
+            let newId = 0
+            let a = this.alphabets
+            if(a.length > 0)
+                newId = a[a.length - 1].id + 1
+
+            a.push({ id: newId, value: '', edit: 1 })
         },
 
-        getTransition: function(source, alphabet_id) {
-            return this.transitions.filter(function(u) {
-                return (u.source == source && u.alphabet == alphabet_id)
+        addState: function() {
+            let newId = 0
+            let s = this.states
+            if(s.length > 0)
+                newId = s[s.length - 1].id + 1
+
+            s.push({
+                id: newId,
+                value: '',
+                edit: 1,
+                final: false
             })
+        },
+
+        getState: function(id) {
+            return this.states.find(x => x.id === id)
+        },
+
+        getFinalStates: function() {
+            return this.states.filter(x => x.final === true)
+        },
+
+        getTransition: function(source, alphabet) {
+            return this.transitions.filter(x => x.source === source && x.alphabet === alphabet)
         },
 
         isTransitionExist: function(source, dest, alphabet) {
-            var index = this.transitions.filter(function(u) {
-                return (u.source == source && u.dest == dest && u.alphabet == alphabet)
-            })
-
-            return (index.length > 0);
+            let index = this.transitions.findIndex(x => x.source === source && x.dest === dest && x.alphabet === alphabet)
+            return (index != -1);
         },
 
-        getStateById: function(state_id) {
-            var id = this.states.filter(function(u) {
-                return (u.id == state_id)
-            })
+        toggleTransition: function(source, dest, alphabet) {
+            let t = this.transitions
+            let index = t.findIndex(x => x.source === source && x.dest === dest && x.alphabet === alphabet)
 
-            return id[0]
-        },
+            if(index != -1)
+                t.splice(index, 1)
+            else {
+                let newId = 0
+                if(t.length > 0)
+                    newId = t[t.length - 1].id + 1
 
-        addItem(type) {
-
-            if(type.length > 0)
-                var last_id = type[type.length - 1].id + 1
-            else
-                var last_id = 0
-
-            type.push({
-                id: last_id,
-                value: '',
-                edit: 1
-            })
-        },
-        delItem(type, index) {
-
-            if(type[index].id == this.initial_state)
-                this.initial_state = -1
-
-            type.splice(index, 1)
-        },
-        toggleTransition(source, dest, alphabet) {
-            //var index = this.transitions.filter(function(u) {
-            //    return (u.source == source && u.dest == dest && u.alphabet == alphabet)
-            //})
-
-            var index = this.transitions.indexOf(this.transitions.find(t => t.source == source && t.dest == dest && t.alphabet == alphabet))
-
-            if(index == -1) {
-                if(this.transitions.length > 0)
-                    var last_id = this.transitions[this.transitions.length - 1].id + 1
-                else
-                    var last_id = 0
-
-                this.transitions.push({
-                    id: last_id,
+                t.push({
+                    id: newId,
                     source: source,
                     dest: dest,
                     alphabet: alphabet
                 })
             }
-            else {
-                this.transitions.splice(index, 1)
-            }
-        }
-    },
-    mounted() {},
-    computed: {
-        initialState: function() {
-            var id = this.initial_state
-            return this.states.filter(function(u) {
-                return (u.id == id)
-            })
         },
 
-        finalState: function() {
-            return this.states.filter(function(u) {
-                return (u.final == true)
-            })
+        deleteAlphabet: function(index) {
+            let a = this.alphabets
+            let t = this.transitions
+            this.transitions = t.filter(x => !(x.alphabet === a[index].id))
+
+            a.splice(index, 1)
         },
-    }
+
+        deleteState: function(index) {
+
+            let s = this.states
+            let t = this.transitions
+            this.transitions = t.filter(x => !(x.source === s[index].id || x.dest === s[index].id))
+
+            if(this.initState == s[index].id)
+                this.initState = -1
+
+            s.splice(index, 1)
+        },
+
+        clearProperties: function() {
+            this.initState = -1
+            this.alphabets = [{ id: 0, value: 'ε', edit: 0 }]
+            this.states = []
+            this.transitions = []
+        },
+
+        clearTransition: function() {
+            this.transitions = []
+        },
+
+    },
+    mounted() {}
 };
 </script>
