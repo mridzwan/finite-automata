@@ -38,8 +38,8 @@
                         </a>
                     </li>
                 </router-link>
-                <router-link to="/fa" v-slot="{ href, route, navigate, isExactActive }">
-                    <li :class="[isExactActive && 'is-active']">
+                <router-link to="/fa" v-slot="{ href, route, navigate, isActive, isExactActive }">
+                    <li :class="[isActive && 'is-active', isExactActive && 'is-active']">
                         <a :href="href" @click="navigate">
                             <span class="icon is-small has-text-grey"><i class="fas fa-cogs" aria-hidden="true"></i></span>
                             <span>FA</span>
