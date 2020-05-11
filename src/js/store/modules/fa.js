@@ -1,10 +1,18 @@
 const state = () => ({
-    alphabets: [{ id: 0, value: 'ε', edit: 0 }],
-    states: [],
+    alphabets: [
+        { id: 0, value: 'ε', edit: 0 },
+        { id: 1, value: '0', edit: 1 },
+        { id: 2, value: '1', edit: 1 },
+    ],
+    states: [
+        { id: 0, value: 'a', edit: 1, final: false },
+        { id: 1, value: 'b', edit: 1, final: true },
+        { id: 2, value: 'c', edit: 1, final: false },
+    ],
 
     limitAlphabet: 10,
     limitState: 10,
-    initState: -1
+    initState: 0
 })
 
 const getters = {
@@ -14,6 +22,20 @@ const getters = {
     getFinalStates: (state) => {
         return state.states.filter(x => x.final === true)
     },
+    getAlphabetByValue: (state) => (value) => {
+        return state.alphabets.find(a => a.value === value)
+    },
+    getInitialState: (state) => {
+        return state.initState
+    },
+    isFinalState: (state, getter) => (id) => {
+        let s = getter.getState(id)
+
+        if(typeof s !== 'undefined')
+            return s.final
+        else
+            return false
+    }
 }
 
 const actions = {

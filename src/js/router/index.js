@@ -15,7 +15,7 @@ Vue.use(VueRouter)
 
 const routes = [
     { path: '/', component: Home },
-    { name: 'fa', path: '/fa', component: FA, children: [
+    { path: '/fa', component: FA, children: [
         { name: 'nfa', path: '/', component: FANFA },
         { name: 'test', path: 'test', component: FATest },
         { name: 'noepsilon', path: 'noepsilon', component: FANoEpsilon },

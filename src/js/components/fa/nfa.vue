@@ -9,7 +9,7 @@
                             <tr>
                                 <th class="has-text-centered has-text-white-bis has-background-grey"><abbr title="Alphabet">Σ</abbr></th>
                                 <td class="has-text-centered has-background-light" v-for="alphabet in alphabets" :key="alphabet.id">
-                                    <input type="text" class="input has-text-centered" style="width:3em;" maxlength="2" v-model="alphabet.value" :disabled="alphabet.edit == 0">
+                                    <input type="text" class="input has-text-centered" style="width:3em;" maxlength="1" v-model="alphabet.value" :disabled="alphabet.edit == 0">
                                     <span class="is-inline-flex" v-if="alphabet.edit == 1">
                                         <button class="delete is-small" v-on:click="deleteAlphabet(alphabet.id)"></button>
                                     </span>
@@ -106,7 +106,7 @@
                         </tbody>
                     </table>
                     <div class="has-text-centered-touch">
-                        <button class="button is-rounded" v-on:click="clearProperties"><span class="icon is-small has-text-grey"><i class="fas fa-redo-alt"></i></span>&nbsp;&nbsp;&nbsp;Reset</button>
+                        <button class="button is-rounded" v-on:click="clearTable()"><span class="icon is-small has-text-grey"><i class="fas fa-redo-alt"></i></span>&nbsp;&nbsp;&nbsp;Reset</button>
                     </div>
                     <br><br>
                 </div>
@@ -193,7 +193,12 @@ export default {
     },
     methods: { 
         ...mapActions('fa', ['addAlphabet','addState','deleteAlphabet','deleteState','clearProperties']),
-        ...mapActions('transition', ['toggleTransition', 'clearTransition'])
+        ...mapActions('transition', ['toggleTransition', 'clearTransition']),
+
+        clearTable: function() {
+            this.clearProperties()
+            this.clearTransition()
+        }
     },
     mounted() {}
 };

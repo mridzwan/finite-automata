@@ -1,17 +1,25 @@
 const state = () => ({
-    transitions: []
+    transitions: [
+        { id: 0, source: 0, dest: 1, alphabet: 1 },
+        { id: 1, source: 0, dest: 2, alphabet: 2 },
+        { id: 2, source: 2, dest: 0, alphabet: 1 },
+        { id: 3, source: 2, dest: 1, alphabet: 0 }
+    ]
 })
 
 const getters = {
     getTransitions: (state) => (source, alphabet) => {
         return state.transitions.filter(t => t.source === source && t.alphabet === alphabet)
     },
+    getTransitionsBySource: (state) => (source) => {
+        return state.transitions.filter(t => t.source === source)
+    },
     getTransitionByIndex: (state) => (source, dest, alphabet) => {
         return state.transitions.findIndex(t => t.source === source && t.dest === dest && t.alphabet === alphabet)
     },
     isTransitionExist: (state, getters) => (source, dest, alphabet) => {
         return (getters.getTransitionByIndex(source, dest, alphabet) != -1)
-    }
+    },
 }
 
 const actions = {
