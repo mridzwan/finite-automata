@@ -176,24 +176,24 @@ import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
     computed: {
-        ...mapState('fa', ['alphabets', 'states', 'limitAlphabet', 'limitState']),
-        ...mapState('transition', ['transitions']),
+        ...mapState('enfa', ['alphabets', 'states', 'limitAlphabet', 'limitState']),
+        ...mapState('transitionEnfa', ['transitions']),
 
-        ...mapGetters('fa', ['getState', 'getFinalStates']),
-        ...mapGetters('transition', ['getTransitions', 'isTransitionExist']),
+        ...mapGetters('enfa', ['getState', 'getFinalStates']),
+        ...mapGetters('transitionEnfa', ['getTransitions', 'isTransitionExist']),
 
         initState: {
             get() {
-                return this.$store.state.fa.initState
+                return this.$store.state.enfa.initState
             },
             set(stateid) {
-                this.$store.commit('fa/setInitState', stateid)
+                this.$store.commit('enfa/setInitState', stateid)
             }
         },
     },
     methods: { 
-        ...mapActions('fa', ['addAlphabet','addState','deleteAlphabet','deleteState','clearProperties']),
-        ...mapActions('transition', ['toggleTransition', 'clearTransition']),
+        ...mapActions('enfa', ['addAlphabet','addState','deleteAlphabet','deleteState','clearProperties']),
+        ...mapActions('transitionEnfa', ['toggleTransition', 'clearTransition']),
 
         clearTable: function() {
             this.clearProperties()

@@ -30,12 +30,12 @@ const actions = {
 
             for(var i = 0; i < path.length; i++) {
 
-                let t = rootGetters['transition/getTransitionsBySource'](path[i].path[path[i].path.length - 1].state)
+                let t = rootGetters['transitionEnfa/getTransitionsBySource'](path[i].path[path[i].path.length - 1].state)
                 let prev = path[i].path.slice(0, path[i].path.length);
                 let traversed = false
 
                 let p = path[i].path.filter(a => a.alphabet !== '')
-                let alphabet = rootGetters['fa/getAlphabetByValue'](string.charAt(p.length))
+                let alphabet = rootGetters['enfa/getAlphabetByValue'](string.charAt(p.length))
                 alphabet = (typeof alphabet !== 'undefined' ? alphabet.id : -1)
 
                 for(var j = 0; j < t.length; j++) {
@@ -95,7 +95,7 @@ const actions = {
                     if(!w.length)
                         w = [{ state: -1 }]
 
-                    if(rootGetters['fa/isFinalState'](w[w.length - 1].state) || rootGetters['fa/isFinalState'](p.path[p.path.length - 1].state)) {
+                    if(rootGetters['enfa/isFinalState'](w[w.length - 1].state) || rootGetters['enfa/isFinalState'](p.path[p.path.length - 1].state)) {
                         pass.push(j)
                     }
                 }

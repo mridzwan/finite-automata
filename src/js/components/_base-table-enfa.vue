@@ -26,7 +26,7 @@
             </tbody>
         </table>
         <div class="has-text-centered-touch">
-            <router-link :to="{ name: 'nfa' }" class="button is-rounded"><span class="icon is-small has-text-grey"><i class="fas fa-edit"></i></span>&nbsp;&nbsp;&nbsp;Edit</router-link>
+            <router-link :to="{ name: 'enfa' }" class="button is-rounded"><span class="icon is-small has-text-grey"><i class="fas fa-edit"></i></span>&nbsp;&nbsp;&nbsp;Edit</router-link>
         </div>
     </div>
 </template>
@@ -36,10 +36,10 @@ import { mapState, mapGetters } from 'vuex'
 
 export default {
     computed: {
-        ...mapState('fa', ['alphabets', 'states', 'initState']),
+        ...mapState('enfa', ['alphabets', 'states', 'initState']),
 
-        ...mapGetters('fa', ['getState']),
-        ...mapGetters('transition', ['getTransitions']),
+        ...mapGetters('enfa', ['getState']),
+        ...mapGetters('transitionEnfa', ['getTransitions']),
     },
     methods: {},
     mounted() {}

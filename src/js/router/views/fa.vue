@@ -5,7 +5,7 @@
                 <span class="icon is-small"><i class="fas fa-clipboard-check" aria-hidden="true"></i></span>
                 <span>Test</span>
             </router-link>
-            <router-link :to="{ name: 'noepsilon' }" active-class="is-info is-selected" class="button" :disabled="initState === -1">
+            <router-link :to="{ name: 'nfa' }" active-class="is-info is-selected" class="button" :disabled="initState === -1">
                 <span class="icon is-small"><i class="fas fa-ban" aria-hidden="true"></i></span>
                 <span>No ε</span>
             </router-link>
@@ -31,7 +31,7 @@ export default {
     mounted() {},
     computed: {
         initState () {
-            return this.$store.state.fa.initState
+            return this.$store.state.enfa.initState
         }
     }
 }

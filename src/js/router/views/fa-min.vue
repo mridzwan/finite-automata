@@ -1,6 +1,6 @@
 <template>
     <div>
-        NO EPSILON
+        MINIMIZE
     </div>
 </template>
 
@@ -13,12 +13,12 @@
         mounted() {},
         computed: {
             initState () {
-                return this.$store.state.fa.initState
+                return this.$store.state.enfa.initState
             }
         },
         created() {
             if(this.initState == -1)
-                this.$router.push({name: 'nfa'})
+                this.$router.push({name: 'enfa'})
         }
     }
 </script>

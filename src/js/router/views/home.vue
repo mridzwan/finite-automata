@@ -19,7 +19,7 @@
                     </p>
 
                     <figure class="image is-128x128 is-inline-block">
-                        <img class="is-rounded" src="../../img/azry.jpg">
+                        <img class="is-rounded" src="../../../img/azry.jpg">
                     </figure>
                     <p class="has-text-weight-medium">MUHAMMAD AZRY BIN ZURAIDY<br>1151100235<br>1151100235@student.mmu.edu.my</p>
                 </div>
@@ -40,7 +40,7 @@
                         <div class="level-left">
                             <div class="level-item">
                                 <figure class="image is-128x128 is-inline-block">
-                                    <img class="is-rounded" src="../../img/azif.jpg">
+                                    <img class="is-rounded" src="../../../img/azif.jpg">
                                 </figure>
                             </div>
                             <div class="level-item">
@@ -55,7 +55,7 @@
                         <div class="level-left">
                             <div class="level-item">
                                 <figure class="image is-128x128 is-inline-block">
-                                    <img class="is-rounded" src="../../img/wan.jpg">
+                                    <img class="is-rounded" src="../../../img/wan.jpg">
                                 </figure>
                             </div>
                             <div class="level-item">
@@ -69,7 +69,7 @@
                         <div class="level-left">
                             <div class="level-item">
                                 <figure class="image is-128x128 is-inline-block">
-                                    <img class="is-rounded" src="../../img/syem.jpg">
+                                    <img class="is-rounded" src="../../../img/syem.jpg">
                                 </figure>
                             </div>
                             <div class="level-item">

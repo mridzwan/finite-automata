@@ -66,7 +66,7 @@ module.exports = {
         new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
         new HtmlWebpackPlugin({
             title: 'Finite Automata',
-            template: './src/views/index.html',
+            template: './src/template/index.html',
             favicon: './src/img/favicon.ico',
         }),
         new MiniCssExtractPlugin({

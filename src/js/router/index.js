@@ -1,28 +1,18 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Home from '../components/home.vue'
-import FA from '../components/fa.vue'
-import Docs from '../components/docs.vue'
-
-import FANFA from '../components/fa/nfa.vue'
-import FATest from '../components/fa/test.vue'
-import FANoEpsilon from '../components/fa/noepsilon.vue'
-import FADFA from '../components/fa/dfa.vue'
-import FAMin from '../components/fa/min.vue'
-
 Vue.use(VueRouter)
 
 const routes = [
-    { path: '/', component: Home },
-    { path: '/fa', component: FA, children: [
-        { name: 'nfa', path: '/', component: FANFA },
-        { name: 'test', path: 'test', component: FATest },
-        { name: 'noepsilon', path: 'noepsilon', component: FANoEpsilon },
-        { name: 'dfa', path: 'dfa', component: FADFA },
-        { name: 'min', path: 'min', component: FAMin },
+    { path: '/', component: require('./views/home.vue').default },
+    { path: '/fa', component: require('./views/fa.vue').default, children: [
+        { name: 'enfa', path: '/', component: require('./views/fa-enfa.vue').default },
+        { name: 'test', path: 'test', component: require('./views/fa-test.vue').default },
+        { name: 'nfa', path: 'nfa', component: require('./views/fa-nfa.vue').default },
+        { name: 'dfa', path: 'dfa', component: require('./views/fa-dfa.vue').default },
+        { name: 'min', path: 'min', component: require('./views/fa-min.vue').default },
     ]},
-    { path: '/docs', component: Docs },
+    { path: '/docs', component: require('./views/docs.vue').default },
 ]
 
 export default new VueRouter({

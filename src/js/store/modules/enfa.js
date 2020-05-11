@@ -55,7 +55,7 @@ const actions = {
 
         let index = state.alphabets.findIndex(x => x.id === id)
         if(index != -1) {
-            commit('transition/deleteTransitionsByAlphabet', id, { root: true })
+            commit('transitionEnfa/deleteTransitionsByAlphabet', id, { root: true })
             commit('spliceAlphabet', { start: index, deleteCount: 1 })
         }
     },
@@ -67,7 +67,7 @@ const actions = {
             if(state.initState == id)
                 state.initState = -1
 
-            commit('transition/deleteTransitionsByState', id, { root: true })    
+            commit('transitionEnfa/deleteTransitionsByState', id, { root: true })    
             commit('spliceState', { start: index, deleteCount: 1 })
         }
     },

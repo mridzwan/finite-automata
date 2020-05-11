@@ -1,11 +1,13 @@
 <template>
     <div>
         <div class="columns is-desktop">
-            <div class="column"><BaseTableNfa></BaseTableNfa></div>
+            <div class="column"><BaseTableEnfa></BaseTableEnfa></div>
             <div class="column">
                 <p class="has-text-centered-touch has-text-weight-semibold">Test string</p><br>
                 <textarea id="test-string" class="textarea" placeholder="e.g. 11000110" v-model="string">''</textarea><br>
-                <button class="button is-rounded" v-on:click="checkStrings"><span class="icon is-small has-text-grey"><i class="fas fa-clipboard-check" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;Check</button>
+                <div class="has-text-centered-touch">
+                    <button class="button is-rounded" v-on:click="checkStrings"><span class="icon is-small has-text-grey"><i class="fas fa-clipboard-check" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;Check</button>
+                </div>
 
                 <section class="section">
                     <div class="container">
@@ -50,7 +52,7 @@ import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
     methods: {
-        ...mapActions('test', ['checkStrings']),
+        ...mapActions('testEnfa', ['checkStrings']),
 
         printTraverse: function(index, pathid) {
             let p = this.getPath(index, pathid)
@@ -65,26 +67,26 @@ export default {
         }
     },
     computed: {
-        ...mapState('test', ['strings', 'paths', 'results']),
+        ...mapState('testEnfa', ['strings', 'paths', 'results']),
 
-        ...mapGetters('test', ['getPath']),
-        ...mapGetters('fa', ['getState']),
+        ...mapGetters('testEnfa', ['getPath']),
+        ...mapGetters('enfa', ['getState']),
 
         initState () {
-            return this.$store.state.fa.initState
+            return this.$store.state.enfa.initState
         },
         string: {
             get() {
-                return this.$store.state.test.string
+                return this.$store.state.testEnfa.string
             },
             set(string) {
-                this.$store.commit('test/setString', string)
+                this.$store.commit('testEnfa/setString', string)
             }
         },
     },
     created() {
         if(this.initState == -1)
-            this.$router.push({name: 'nfa'})
+            this.$router.push({name: 'enfa'})
     }
 }
 </script>
