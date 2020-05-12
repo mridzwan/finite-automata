@@ -35,6 +35,12 @@ const getters = {
             return s.final
         else
             return false
+    },
+    getAllAlphabet: (state) => {
+        return state.alphabets
+    },
+    getAllState: (state) => {
+        return state.states
     }
 }
 

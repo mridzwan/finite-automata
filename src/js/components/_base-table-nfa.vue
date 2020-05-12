@@ -1,7 +1,7 @@
 <template>
     <div class="table-container">
 
-        <p class="has-text-centered-touch has-text-weight-semibold">ε-NFA</p><br>
+        <p class="has-text-centered-touch has-text-weight-semibold">NFA</p><br>
         <table class="table is-centered-touch is-bordered is-size-6">
             <thead>
                 <tr>
@@ -17,16 +17,13 @@
                     <td class="has-text-centered has-background-light" v-for="alphabet in alphabets" :key="alphabet.id">
 
                         <span v-for="(transition, index) in getTransitions(state.id, alphabet.id)" :key="transition.id">
-                        <span v-if="index != 0">,</span>{{ getState(transition.dest).value }}</span>
+                            <span v-if="index != 0">,</span>{{ getState(transition.dest).value }}</span>
                         <span v-show="!getTransitions(state.id, alphabet.id).length">∅</span>
 
                     </td>
                 </tr>
             </tbody>
         </table>
-        <div class="has-text-centered-touch">
-            <router-link :to="{ name: 'enfa' }" class="button is-rounded"><span class="icon is-small has-text-grey"><i class="fas fa-edit"></i></span>&nbsp;&nbsp;&nbsp;Edit</router-link>
-        </div>
     </div>
 </template>
 
@@ -35,12 +32,17 @@ import { mapState, mapGetters } from 'vuex'
 
 export default {
     computed: {
-        ...mapState('enfa', ['alphabets', 'states', 'initState']),
+        ...mapState('nfa', ['alphabets', 'states', 'initState']),
 
-        ...mapGetters('enfa', ['getState']),
-        ...mapGetters('transitionEnfa', ['getTransitions']),
+        ...mapGetters({
+            getState: 'nfa/getState', 
+            getTransitions: 'transitionNfa/getTransitions'
+        }),
     },
     methods: {},
-    mounted() {}
+    mounted() {},
+    created() {
+        this.$store.dispatch('nfa/convertENFAtoNFA')
+    }
 };
 </script>

@@ -4,7 +4,7 @@
             <div class="column"><BaseTableEnfa></BaseTableEnfa></div>
             <div class="column">
                 <p class="has-text-centered-touch has-text-weight-semibold">Test string</p><br>
-                <textarea id="test-string" class="textarea" placeholder="e.g. 11000110" v-model="string">''</textarea><br>
+                <textarea id="test-string" class="textarea" placeholder="e.g. 11000110" v-model="string" rows="5">''</textarea><br>
                 <div class="has-text-centered-touch">
                     <button class="button is-rounded" v-on:click="checkStrings"><span class="icon is-small has-text-grey"><i class="fas fa-clipboard-check" aria-hidden="true"></i></span>&nbsp;&nbsp;&nbsp;Check</button>
                 </div>

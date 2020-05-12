@@ -20,6 +20,44 @@ const getters = {
     isTransitionExist: (state, getters) => (source, dest, alphabet) => {
         return (getters.getTransitionByIndex(source, dest, alphabet) != -1)
     },
+    getAllTransition: (state) => {
+        return state.transitions
+    },
+    getStateClosure: (state) => (id) => {
+        let closure = []
+        let tmpClosure = [ [id] ]
+
+        let traversing = false
+        do {
+            traversing = false
+            for(var t = 0; t < tmpClosure.length; t++) {
+                let index = tmpClosure[t].length - 1
+                let source = tmpClosure[t][index]
+                let count = 0
+                let transition = state.transitions.filter(t => t.source === source && t.alphabet === 0)
+
+                for(var j = 0; j < transition.length; j++) {
+                    // skip epsilon looping 
+                    if(transition[j].dest != source) {
+                        if(!count) // first occurence, push to the array
+                            tmpClosure[t].push(transition[j].dest)
+                        else // new array
+                            tmpClosure[tmpClosure.length] = [trasition[j].dest]
+
+                        count++
+                        traversing = true
+                    }
+                }
+            }
+        } while(traversing)
+
+        // merge all arrays to one
+
+        for(var t = 0; t < tmpClosure.length; t++)
+            closure = closure.concat(tmpClosure[t].filter((item) => closure.indexOf(item) < 0))
+
+        return closure
+    }
 }
 
 const actions = {

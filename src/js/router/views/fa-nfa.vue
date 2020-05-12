@@ -1,6 +1,9 @@
 <template>
     <div>
-        NO EPSILON
+        <div class="columns is-desktop">
+            <div class="column"><BaseTableEnfa></BaseTableEnfa></div>
+            <div class="column"><BaseTableNfa></BaseTableNfa></div>
+        </div>
     </div>
 </template>
 
