@@ -11,6 +11,15 @@ const getters = {
     getStateIndex: (state) => (id) => {
         return state.states.findIndex(x => x.id === id)
     },
+    getAllAlphabet: (state) => {
+        return state.alphabets
+    },
+    getAllState: (state) => {
+        return state.states
+    },
+    getInitialState: (state) => {
+        return state.initState
+    }
 }
 
 const actions = {
@@ -33,18 +42,6 @@ const actions = {
                     }
                 }
             }
-            /*
-            if(state.states[s].id == state.initState) {
-                let transition = rootGetters['transitionEnfa/getTransitions'](state.states[s].id, 0)
-
-                for(var t = 0; t < transition.length; t++) {
-                    if(getters.getState(transition[t].dest).final == true) {
-                        state.states[s].final = true
-                        break
-                    }
-                }
-            }*/
-
 
             for(var a = 0; a < state.alphabets.length; a++) {
                 let result = []

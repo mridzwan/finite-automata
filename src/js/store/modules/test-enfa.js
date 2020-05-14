@@ -30,7 +30,7 @@ const actions = {
 
             for(var i = 0; i < path.length; i++) {
 
-                let t = rootGetters['transitionEnfa/getTransitionsBySource'](path[i].path[path[i].path.length - 1].state)
+                let t = rootGetters['transitionEnfa/getTransitionsBySource'](path[i].path[path[i].path.length - 1].state).filter(t => !(t.dest === path[i].path[path[i].path.length - 1].state && !t.alphabet))
                 let prev = path[i].path.slice(0, path[i].path.length);
                 let traversed = false
 
@@ -103,6 +103,13 @@ const actions = {
 
             commit('pushResult', { id: i, pass: pass })
         }
+    },
+
+    resetTestVariables({state}) {
+        state.string = ''
+        state.strings = []
+        state.paths = []
+        state.results = []
     }
 }
 

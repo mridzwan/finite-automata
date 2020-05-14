@@ -52,7 +52,7 @@ import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
     methods: {
-        ...mapActions('testEnfa', ['checkStrings']),
+        ...mapActions('testEnfa', ['checkStrings', 'resetTestVariables']),
 
         printTraverse: function(index, pathid) {
             let p = this.getPath(index, pathid)
@@ -87,6 +87,8 @@ export default {
     created() {
         if(this.initState == -1)
             this.$router.push({name: 'enfa'})
+
+        this.resetTestVariables()
     }
 }
 </script>
