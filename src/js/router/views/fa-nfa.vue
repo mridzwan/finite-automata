@@ -22,6 +22,8 @@
         created() {
             if(this.initState == -1)
                 this.$router.push({name: 'enfa'})
+            else
+                this.$store.dispatch('nfa/convertENFAtoNFA')
         }
     }
 </script>

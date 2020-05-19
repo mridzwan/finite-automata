@@ -40,9 +40,6 @@ export default {
         }),
     },
     methods: {},
-    mounted() {},
-    created() {
-        this.$store.dispatch('nfa/convertENFAtoNFA')
-    }
+    mounted() {}
 };
 </script>

@@ -7,7 +7,7 @@
                 <thead>
                     <tr>
                         <th class="has-text-centered has-text-white-bis has-background-light"></th>
-                        <th class="has-text-centered has-text-white-bis has-background-light"></th>
+                        <th class="has-text-centered has-text-white-bis has-background-grey"></th>
                         <th class="has-text-centered has-text-white-bis has-background-grey" v-for="alphabet in alphabets" :key="alphabet.id">
                             {{ alphabet.value }}
                         </th>
@@ -45,9 +45,6 @@ export default {
         }),
     },
     methods: {},
-    mounted() {},
-    created() {
-        this.$store.dispatch('dfa/convertNFAtoDFA')
-    }
+    mounted() {}
 };
 </script>

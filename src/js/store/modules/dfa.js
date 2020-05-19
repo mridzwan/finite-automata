@@ -29,6 +29,51 @@ const getters = {
     getLabel: (state) => (id) => {
         return state.labels.find(l => l.id == id)
     },
+    getInitialLabel: (state) => {
+        return state.labels.find(l => l.init == true)
+    },
+    getReachableStates: (state, getters) => { 
+        let checking = false
+        let reachableStates = state.labels.map(function(l) {
+            return l.id
+        });
+
+        do {
+            checking = false
+            let tmp = []
+
+            for(var i = 0; i < reachableStates.length; i++) {
+                let label = getters.getLabel(reachableStates[i])
+
+                for(var j = 0; j < state.alphabets.length; j++) {
+                    let dest = getters.getLabelByAlphabet(label, state.alphabets[j].id)
+                    if(dest != label.id)
+                        tmp.push(dest)
+                }
+            }
+
+            tmp.push(getters.getInitialLabel.id)
+            tmp = tmp.filter(function(item, pos) {
+                return tmp.indexOf(item) == pos;
+            })
+
+            if(tmp.length) {
+                
+                if(!(tmp.length === reachableStates.length && tmp.sort().every(function(value, index) { return value === reachableStates.sort()[index]}))) {
+                    reachableStates = tmp
+                    checking = true
+                }
+            }
+
+        } while(checking)
+        
+        return reachableStates
+    },
+    getReachableLabels: (state, getters) => {
+        return getters.getReachableStates.map(function(l) {
+            return getters.getLabel(l)
+        });
+    }
 }
 
 const actions = {
@@ -65,6 +110,10 @@ const actions = {
         }
         state.labels.sort((a, b) => a.states.length - b.states.length)
 
+        for(var i = 0; i < state.alphabets.length; i++) {
+            state.labels[0].transition.push({alphabet: state.alphabets[i].id, dest: 0})
+        }
+
         for(var i = 1; i < state.labels.length; i++) {
             state.labels[i].value = String.fromCharCode(i + 64)
             for(var j = 0; j < state.alphabets.length; j++) {
@@ -89,14 +138,9 @@ const actions = {
                     }
 
                 }
-
-                //console.log(state.labels[i].states + ' - ' + state.alphabets[j].value + ' - ' + filtered)
             }
             
         }
-        //array1.length === array2.length && array1.sort().every(function(value, index) { return value === array2.sort()[index]});
-        //let transitions = rootGetters['transitionNfa/getTransitions'](closure[c], state.alphabets[a].id)
-
     },
     addAlphabet({state, commit}) {
         let newId = 0
