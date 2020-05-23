@@ -70,9 +70,108 @@ const getters = {
         return reachableStates
     },
     getReachableLabels: (state, getters) => {
-        return getters.getReachableStates.map(function(l) {
+        let reachables = getters.getReachableStates.map(function(l) {
             return getters.getLabel(l)
-        });
+        })
+
+        reachables.sort(function(a, b) {
+            if (a.value == 'Z') return -1
+            if (b.value == 'Z') return 1
+            return a.value.localeCompare(b.value)
+        })
+
+        return reachables
+    },
+    getMinimizedDFA: (state, getters) => {
+        let labels = getters.getReachableLabels
+        let groups = [[]]
+
+        groups[0][0] = { index: 0, group: '', labels: [], transitions: [] }
+        groups[0][1] = { index: 1, group: '', labels: [], transitions: [] }
+
+        for(var i = 0; i < labels.length; i++) {
+            for(var j = 0; j < state.alphabets.length; j++) {
+                if(typeof labels[i].transition[j] === 'undefined')
+                    labels[i].transition.push({alphabet: state.alphabets[j].id, dest: 0})
+            }
+
+            if(labels[i].final)
+                groups[0][0].labels.push(labels[i].id)
+            else
+                groups[0][1].labels.push(labels[i].id)
+        }
+
+        // generate group labels
+        let group_count = 0
+        for(var i = 0; i < groups[0].length; i++) {
+            if(groups[0][i].labels.length > 1)
+                groups[0][i].group = 'G' + (++group_count)
+            else
+                groups[0][i].group = getters.getLabel(groups[0][i].labels[0]).value
+        }
+
+        let stable = false
+
+        while(!stable) {
+            stable = true
+
+            let group = groups[groups.length - 1]
+            // update transition
+            for(var i = 0; i < group.length; i++) {
+
+                for(var j = 0; j < group[i].labels.length; j++) {
+
+                    group[i].transitions[j] = new Array(state.alphabets.length)
+                    for(var k = 0; k < state.alphabets.length; k++) {
+
+                        // find index of next group transition
+                        let idxgroup = 0
+                        for(var l = 0; l < group.length; l++) {
+                            if(group[l].labels.indexOf(getters.getLabel(group[i].labels[j]).transition[k].dest) != -1) {
+                                idxgroup = l
+                                break;
+                            }
+                        }
+                        group[i].transitions[j][k] = idxgroup
+                    }
+                }
+            }
+
+            // check for stability
+
+            let newgroups = []
+            group_count = 0
+
+            for(var i = 0; i < group.length; i++) {
+
+                newgroups[group_count] = { index: group_count, group: '', labels: [group[i].labels[0]], transitions: [] }
+
+                for(var j = 0; j < group[i].labels.length - 1; j++) {
+                    if(group[i].transitions[j].every(function(value, index) { return value == group[i].transitions[j + 1][index]})) { // match
+                        newgroups[group_count].labels.push(group[i].labels[j + 1])
+                    }
+                    else {
+                        newgroups[++group_count] = { index: group_count, group: '', labels: [group[i].labels[j + 1]], transitions: [] }
+                        stable = false
+                    }  
+                }
+
+                group_count++
+            }
+
+            // generate group labels
+            group_count = 0
+            for(var i = 0; i < newgroups.length; i++) {
+                if(newgroups[i].labels.length > 1)
+                    newgroups[i].group = 'G' + (++group_count)
+                else
+                    newgroups[i].group = getters.getLabel(newgroups[i].labels[0]).value
+            }
+
+            if(!stable)
+                groups[groups.length] = newgroups
+        }
+        return groups
     }
 }
 

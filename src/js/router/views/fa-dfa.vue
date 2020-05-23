@@ -4,7 +4,6 @@
             <div class="column"><BaseTableNfa></BaseTableNfa></div>
             <div class="column"><BaseTableDfa></BaseTableDfa></div>
             <div class="column"><BaseTableDfaRelabel></BaseTableDfaRelabel></div>
-            <div class="column"><BaseTableDfaReachable></BaseTableDfaReachable></div>
         </div>
     </div>
 </template>
