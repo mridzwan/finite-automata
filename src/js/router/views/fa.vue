@@ -18,7 +18,9 @@
                 <span>Min</span>
             </router-link>
         </div>
-        <router-view></router-view>
+        <transition name="fade">
+            <router-view></router-view>
+        </transition>
     </div>
 </template>
 
