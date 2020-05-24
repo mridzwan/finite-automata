@@ -6,8 +6,9 @@
             </h1>
 
             <h2 class="subtitle">
-                Trimester 3 (1930) - 2019/2020<br><br>
-                Assignment - Group 6
+                Trimester 3 (1930) - 2019/2020<br>
+                Assignment - Group 5<br><br>
+                Developed by:
             </h2>
         </div>
 
